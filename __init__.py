@@ -2,12 +2,19 @@ import datetime
 from openedoo.core.libs import blueprint
 from openedoo import db
 from database import User
-from flask import jsonify
+from flask import jsonify, render_template
 from faker import Faker
 
 fake = Faker()
 
-module_employee = blueprint('module_employee', __name__)
+module_employee = blueprint('module_employee', __name__,
+                            template_folder='templates',
+                            static_folder='static')
+
+
+@module_employee.route('/', methods=['GET'])
+def home():
+    return render_template('index.html')
 
 
 @module_employee.route('/insert', methods=['GET'])
@@ -35,6 +42,6 @@ def index():
         return jsonify(message)
 
 
-@module_employee.route('/employees', methods=['GET'])
+@module_employee.route('/API/0.1/employees', methods=['GET'])
 def employees():
     return jsonify([i.serialize for i in User.query.all()])

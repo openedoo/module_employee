@@ -19,6 +19,7 @@ def home():
 
 @module_employee.route('/insert', methods=['GET'])
 def index():
+    """Generates Fake data to database"""
     try:
         data = {
             'username': fake.user_name(),

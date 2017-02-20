@@ -34,10 +34,10 @@ def index():
             'last_login': datetime.datetime.now(),
             'nip': fake.random_digit_not_null()
         }
-        paimin = User(data)
-        db.session.add(paimin)
+        fakeUser = User(data)
+        db.session.add(fakeUser)
         db.session.commit()
-        return 'ko'
+        return 'Fake User added'
     except Exception as e:
         message = {'error': str(e)}
         return jsonify(message)

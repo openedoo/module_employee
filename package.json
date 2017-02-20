@@ -1,0 +1,13 @@
+{
+  "name": "module_employee",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/dwipr/module_employee.git",
+  "author": "Dwi Purnomo <dwipurnomo.yk@gmail.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-sass": "^3.1.0",
+    "node-sass": "^4.5.0"
+  }
+}

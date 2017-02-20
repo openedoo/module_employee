@@ -4,11 +4,13 @@ from sqlalchemy.orm import relationship
 
 database_prefix = config.database_prefix
 
+
 def dump_datetime(val):
     """Deserialize datetime object into string form for JSON processing."""
     if val is None:
         raise ValueError("Your datetime is wrong!.")
     return [val.strftime("%Y-%m-%d"), val.strftime("%H:%M:%S")]
+
 
 class User(db.Model):
     __tablename__ = '{db_prefix}_empl_user'.format(db_prefix=database_prefix)

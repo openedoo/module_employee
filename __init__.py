@@ -2,8 +2,9 @@ import datetime
 from openedoo.core.libs import blueprint
 from openedoo import db
 from database import User
-from flask import jsonify, render_template
+from flask import jsonify, render_template, redirect, url_for
 from faker import Faker
+from .forms import Login
 
 fake = Faker()
 
@@ -12,9 +13,12 @@ module_employee = blueprint('module_employee', __name__,
                             static_folder='static')
 
 
-@module_employee.route('/', methods=['GET'])
+@module_employee.route('/', methods=['GET', 'POST'])
 def home():
-    return render_template('index.html')
+    login = Login()
+    if login.validate_on_submit():
+        redirect(url_for('employees'))
+    return render_template('login-page.html', form=login)
 
 
 @module_employee.route('/insert', methods=['GET'])

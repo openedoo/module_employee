@@ -7,7 +7,6 @@ from flask import jsonify
 from faker import Faker
 from .forms import Login
 
-fake = Faker()
 
 module_employee = blueprint('module_employee', __name__,
                             template_folder='templates',
@@ -26,6 +25,7 @@ def home():
 def index():
     """Generates Fake data to database"""
     try:
+        fake = Faker()
         data = {
             'username': fake.user_name(),
             'password': fake.password(),

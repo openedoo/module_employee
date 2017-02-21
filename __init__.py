@@ -1,8 +1,9 @@
 import datetime
-from openedoo.core.libs import blueprint
+from openedoo.core.libs import (render_template, redirect, request,
+                                session, blueprint)
 from openedoo import db
 from database import User
-from flask import jsonify, render_template, redirect, url_for
+from flask import jsonify
 from faker import Faker
 from .forms import Login
 

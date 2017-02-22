@@ -1,9 +1,11 @@
 import datetime
+from functools import wraps
 from openedoo.core.libs import (render_template, redirect, request,
                                 session, blueprint)
-from openedoo import db
+from openedoo.core.libs.tools import session_encode
+from openedoo import app, db
 from database import User
-from flask import jsonify
+from flask import jsonify, flash, url_for
 from faker import Faker
 from .forms import Login
 
@@ -13,12 +15,35 @@ module_employee = blueprint('module_employee', __name__,
                             static_folder='static')
 
 
-@module_employee.route('/', methods=['GET', 'POST'])
-def home():
-    login = Login()
-    if login.validate_on_submit():
-        redirect(url_for('employees'))
-    return render_template('login-page.html', form=login)
+def login_required(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        session.permanent = True
+        try:
+            if session['username'] is False:
+                flash('You must login first!')
+                return redirect(url_for('module_employee.login'))
+            return f(*args, **kwargs)
+        except KeyError:
+            flash('Your session is timeout!')
+            return redirect(url_for('module_employee.login'))
+    return wrap
+
+
+@module_employee.route('/login', methods=['GET', 'POST'])
+def login():
+    loginForm = Login()
+    if loginForm.validate_on_submit():
+        username = request.form['username']
+        password = request.form['password']
+        employee = User.query.filter_by(username=username).first()
+        if employee.password == password:
+            encodedSession = session_encode(employee.username)
+            session['username'] = encodedSession
+            return redirect(url_for('module_employee.employees'))
+        flash('Username or password did not match.')
+        return redirect(url_for('module_employee.login'))
+    return render_template('login-page.html', form=loginForm)
 
 
 @module_employee.route('/insert', methods=['GET'])
@@ -48,6 +73,7 @@ def index():
         return jsonify(message)
 
 
-@module_employee.route('/API/0.1/employees', methods=['GET'])
+@module_employee.route('/employees', methods=['GET'])
+@login_required
 def employees():
     return jsonify([i.serialize for i in User.query.all()])

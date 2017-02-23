@@ -84,4 +84,4 @@ def employees():
 @login_required
 def logout():
     session['username'] = False
-    return render_template('logout-page.html')
+    return render_template('logout.html')

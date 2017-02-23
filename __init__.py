@@ -43,7 +43,7 @@ def login():
             return redirect(url_for('module_employee.employees'))
         flash('Username or password did not match.')
         return redirect(url_for('module_employee.login'))
-    return render_template('login-page.html', form=loginForm)
+    return render_template('login.html', form=loginForm)
 
 
 @module_employee.route('/insert', methods=['GET'])
@@ -76,4 +76,12 @@ def index():
 @module_employee.route('/employees', methods=['GET'])
 @login_required
 def employees():
+    print session['username']
     return jsonify([i.serialize for i in User.query.all()])
+
+
+@module_employee.route('/logout', methods=['GET'])
+@login_required
+def logout():
+    session['username'] = False
+    return render_template('logout-page.html')

@@ -176,12 +176,12 @@ h2.title{
     }
 }
 
-.signup-page{
+.page{
     .wrapper{
         > .header{
             min-height: 100vh;
         }
-        .card-signup{
+        .center-page{
             margin: 160px 0 40px;
         }
     }
@@ -194,7 +194,7 @@ h2.title{
 }
 .landing-page,
 .profile-page,
-.signup-page,
+.page,
 .index-page{
     .navbar-transparent{
         padding-top: 25px;

@@ -21,10 +21,13 @@
   </head>
   <body>
 
-    {% block navigation %}{% endblock %}
-    {% block content %}{% endblock %}
-    {% block footer %}{% endblock %}
+    <div class="page">
 
+      {% block navigation %}{% endblock %}
+      {% block content %}{% endblock %}
+      {% block footer %}{% endblock %}
+
+    </div>
     <!--   Core JS Files   -->
     <script src="{{ url_for('module_employee.static', filename='js/jquery.min.js') }}" type="text/javascript"></script>
     <script src="{{ url_for('module_employee.static', filename='js/bootstrap.min.js') }}" type="text/javascript"></script>

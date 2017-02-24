@@ -2,12 +2,13 @@ import datetime
 from functools import wraps
 from openedoo.core.libs import (render_template, redirect, request,
                                 session, blueprint)
-from openedoo.core.libs.tools import session_encode
+from openedoo.core.libs.tools import (session_encode, hashing_werkzeug,
+                                      check_werkzeug)
 from openedoo import app, db
 from database import User
 from flask import jsonify, flash, url_for
 from faker import Faker
-from .forms import Login
+from .forms import Login, flash_errors
 
 
 module_employee = blueprint('module_employee', __name__,
@@ -33,16 +34,20 @@ def login_required(f):
 @module_employee.route('/login', methods=['GET', 'POST'])
 def login():
     loginForm = Login()
-    if loginForm.validate_on_submit():
+    reqMethod = request.method
+    validateForm = loginForm.validate_on_submit()
+    if validateForm:
         username = request.form['username']
         password = request.form['password']
         employee = User.query.filter_by(username=username).first()
-        if employee.password == password:
+        if check_werkzeug(employee.password, password):
             encodedSession = session_encode(employee.username)
             session['username'] = encodedSession
             return redirect(url_for('module_employee.employees'))
         flash('Username or password did not match.')
-        return redirect(url_for('module_employee.login'))
+    else:
+        flash_errors(loginForm)
+
     return render_template('login.html', form=loginForm)
 
 
@@ -51,9 +56,15 @@ def index():
     """Generates Fake data to database"""
     try:
         fake = Faker()
+        username = fake.user_name()
+        print username
+        passw = fake.password()
+        print passw
+        hashedPassw = hashing_werkzeug(passw)
+        print hashedPassw
         data = {
-            'username': fake.user_name(),
-            'password': fake.password(),
+            'username': username,
+            'password': hashedPassw,
             'fullname': fake.name(),
             'access_token': 'glakhgaie837w9',
             'public_key': 'asdalksjd',

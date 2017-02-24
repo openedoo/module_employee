@@ -23,9 +23,15 @@
 
     <div class="page">
 
-      {% block navigation %}{% endblock %}
+      {% block navigation %}
+        {% include "top-navigation.html" %}
+      {% endblock %}
+
       {% block content %}{% endblock %}
-      {% block footer %}{% endblock %}
+
+      {% block footer %}
+        {% include "footer.html" %}
+      {% endblock %}
 
     </div>
     <!--   Core JS Files   -->

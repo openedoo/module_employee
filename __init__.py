@@ -31,6 +31,13 @@ def login_required(f):
     return wrap
 
 
+@module_employee.route('/', methods=['GET'])
+@login_required
+def dashboard():
+    employees = User.query.limit(5).all()
+    return render_template('dashboard.html', data=employees)
+
+
 @module_employee.route('/login', methods=['GET', 'POST'])
 def login():
     loginForm = Login()
@@ -43,7 +50,7 @@ def login():
         if check_werkzeug(employee.password, password):
             encodedSession = session_encode(employee.username)
             session['username'] = encodedSession
-            return redirect(url_for('module_employee.employees'))
+            return redirect(url_for('module_employee.dashboard'))
         flash('Username or password did not match.')
     else:
         flash_errors(loginForm)

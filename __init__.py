@@ -63,9 +63,9 @@ def index():
     """Generates Fake data to database"""
     try:
         fake = Faker()
-        username = fake.user_name()
+        username = 'dwip'
         print username
-        passw = fake.password()
+        passw = 'asdzxcfv123'
         print passw
         hashedPassw = hashing_werkzeug(passw)
         print hashedPassw
@@ -96,6 +96,12 @@ def index():
 def employees():
     print session['username']
     return jsonify([i.serialize for i in User.query.all()])
+
+
+@module_employee.route('/add', methods=['GET', 'POST'])
+@login_required
+def add():
+    return render_template('add-employee.html')
 
 
 @module_employee.route('/logout', methods=['GET'])

@@ -7,7 +7,6 @@ from openedoo.core.libs.tools import (session_encode, hashing_werkzeug,
 from openedoo import app, db
 from database import User
 from flask import jsonify, flash, url_for
-from faker import Faker
 from .forms import Login, flash_errors
 
 
@@ -56,39 +55,6 @@ def login():
         flash_errors(loginForm)
 
     return render_template('login.html', form=loginForm)
-
-
-@module_employee.route('/insert', methods=['GET'])
-def index():
-    """Generates Fake data to database"""
-    try:
-        fake = Faker()
-        username = 'dwip'
-        print username
-        passw = 'asdzxcfv123'
-        print passw
-        hashedPassw = hashing_werkzeug(passw)
-        print hashedPassw
-        data = {
-            'username': username,
-            'password': hashedPassw,
-            'fullname': fake.name(),
-            'access_token': 'glakhgaie837w9',
-            'public_key': 'asdalksjd',
-            'private_key': 'asde',
-            'status': 0,
-            'role': 't',
-            'created': datetime.datetime.now(),
-            'last_login': datetime.datetime.now(),
-            'nip': fake.random_digit_not_null()
-        }
-        fakeUser = User(data)
-        db.session.add(fakeUser)
-        db.session.commit()
-        return 'Fake User added'
-    except Exception as e:
-        message = {'error': str(e)}
-        return jsonify(message)
 
 
 @module_employee.route('/employees', methods=['GET'])

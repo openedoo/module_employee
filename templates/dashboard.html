@@ -4,11 +4,29 @@
 <div class="wrapper">
   <div class="main-dashboard container">
     <div class="row">
-      <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
-        {% for employee in data %}
-          {{ employee.username }}
-        {% endfor %}
-      </div>
+      <div class="col-md-12">
+
+        <div class="center-page">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Fullname</th>
+                <th>Nip</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% for employee in data %}
+                <tr>
+                  <td>{{ employee.username }}</td>
+                  <td>{{ employee.fullname }}</td>
+                  <td>{{ employee.nip }}</td>
+                </tr>
+              {% endfor %}
+          </table>
+        </div>
+
     </div>
   </div>
 </div>

@@ -1,5 +1,10 @@
+.white-panel{
+  background-color: $white
+}
+
+
 .center-page {
-  color: #FFFFFF
+  color: $white
 }
 
 .wrapper > .header{
@@ -186,7 +191,7 @@ h2.title{
             min-height: 100vh;
         }
         .center-page{
-            margin: 160px 0 40px;
+            margin: 15vh 0 10vh;
         }
     }
     .footer{

@@ -70,6 +70,16 @@ def add():
     return render_template('add-employee.html')
 
 
+@module_employee.route('/edit/<employee_id>', methods=['GET', 'POST'])
+@login_required
+def edit(employee_id):
+    """Shows existing data,
+    The Update process is not yet implemented
+    """
+    employee = db.session.query(User).get(employee_id)
+    return render_template('edit.html', data=employee)
+
+
 @module_employee.route('/logout', methods=['GET'])
 @login_required
 def logout():

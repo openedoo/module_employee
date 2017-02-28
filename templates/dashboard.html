@@ -38,12 +38,31 @@
                   <td>{{ employee.username }}</td>
                   <td>{{ employee.fullname }}</td>
                   <td>{{ employee.nip }}</td>
-                  <td><a href="{{ url_for('module_employee.edit', employee_id=employee.id) }}">Edit</a>
+                  <td><a href="{{ url_for('module_employee.edit', employee_id=employee.id) }}">Edit</a> | <a href="#deleteConfirmationModal" class="delete-link" data-username="{{ employee.username }}" data-link="{{ url_for('module_employee.delete', employee_id=employee.id) }}" data-toggle="modal" data-target="#deleteConfirmationModal">Delete</a></td>
                 </tr>
               {% endfor %}
           </table>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
 
+<!-- Delete employee confirmation Modal -->
+<div class="modal fade" id="deleteConfirmationModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Are you sure you want to delete?</h4>
+      </div>
+      <div class="modal-body">
+        You will delete <b>an employee</b>. This is not recoverable.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default btn-simple" data-dismiss="modal">Cancel</button>
+        <a href="#" id="delete-link" class="delete-id btn btn-info btn-danger">Delete</a>
+      </div>
     </div>
   </div>
 </div>

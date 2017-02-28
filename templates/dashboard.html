@@ -28,6 +28,7 @@
                 <th>Username</th>
                 <th>Fullname</th>
                 <th>Nip</th>
+                <th>Edit</th>
               </tr>
             </thead>
             <tbody>
@@ -37,6 +38,7 @@
                   <td>{{ employee.username }}</td>
                   <td>{{ employee.fullname }}</td>
                   <td>{{ employee.nip }}</td>
+                  <td><a href="{{ url_for('module_employee.edit', employee_id=employee.id) }}">Edit</a>
                 </tr>
               {% endfor %}
           </table>

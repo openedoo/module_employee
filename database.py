@@ -45,10 +45,18 @@ class User(db.Model):
 
     @property
     def serialize(self):
-        """Return object data in dict to ease the serialize"""
+        """Return object data in dict to ease the serialize of jsonify"""
         return {
             'id': self.id,
             'username': self.username,
             'password': self.password,
-            'created': dump_datetime(self.created)
+            'fullname': self.fullname,
+            'nip': self.nip,
+            'access_token': self.access_token,
+            'public_key': self.public_key,
+            'private_key': self.private_key,
+            'status': self.status,
+            'role': self.role,
+            'created': dump_datetime(self.created),
+            'last_login': dump_datetime(self.last_login)
         }

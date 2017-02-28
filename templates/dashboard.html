@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="wrapper">
+  <div class="main-dashboard container">
+    <div class="row">
+      <div class="col-md-12">
+
+        <div class="center-page">
+          <div class="wrapper">
+            <div class="container">
+              <nav class="pull-left">
+                <ul class="list-unstyled list-inline">
+                  <li>
+                    <a href="{{ url_for('module_employee.add') }}">
+                      <i class="material-icons">add_circle</i> Add Employee
+                      <div class="ripple-container"></div>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th>Username</th>
+                <th>Fullname</th>
+                <th>Nip</th>
+              </tr>
+            </thead>
+            <tbody>
+
+              {% for employee in data %}
+                <tr>
+                  <td>{{ employee.username }}</td>
+                  <td>{{ employee.fullname }}</td>
+                  <td>{{ employee.nip }}</td>
+                </tr>
+              {% endfor %}
+          </table>
+        </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

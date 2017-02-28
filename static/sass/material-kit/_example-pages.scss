@@ -1,3 +1,12 @@
+.white-panel{
+  background-color: $white
+}
+
+
+.center-page {
+  color: $white
+}
+
 .wrapper > .header{
     min-height: 300px;
     background-position: center center;
@@ -176,13 +185,13 @@ h2.title{
     }
 }
 
-.signup-page{
+.page{
     .wrapper{
         > .header{
             min-height: 100vh;
         }
-        .card-signup{
-            margin: 160px 0 40px;
+        .center-page{
+            margin: 15vh 0 10vh;
         }
     }
     .footer{
@@ -194,7 +203,7 @@ h2.title{
 }
 .landing-page,
 .profile-page,
-.signup-page,
+.page,
 .index-page{
     .navbar-transparent{
         padding-top: 25px;

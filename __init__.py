@@ -81,6 +81,15 @@ def edit(employee_id):
     return render_template('edit.html', data=employee)
 
 
+@module_employee.route('/delete/<employee_id>', methods=['GET', 'POST'])
+@login_required
+def delete(employee_id):
+    User.query.filter_by(id=employee_id).delete()
+    db.session.commit()
+    flash('Successfully deleted.')
+    return redirect(url_for('module_employee.dashboard'))
+
+
 @module_employee.route('/logout', methods=['GET'])
 @login_required
 def logout():

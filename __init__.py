@@ -67,6 +67,7 @@ def employees():
 @module_employee.route('/add', methods=['GET', 'POST'])
 @login_required
 def add():
+    """The adding employee process is not yet implemented"""
     return render_template('add-employee.html')
 
 

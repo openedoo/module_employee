@@ -1,0 +1,20 @@
+{% block form_messages %}
+
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <ul class="flashes list-group list-unstyled">
+        {% for message in messages %}
+          <li class="alert alert-danger">
+            <div class="container-fluid">
+              <div class="alert-message">
+                <i class="fa fa-warning"></i>
+                {{ message }}
+              </div>
+            </div>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+{% endwith %}
+
+{% endblock %}

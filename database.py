@@ -35,13 +35,8 @@ class User(db.Model):
         self.password = user['password']
         self.fullname = user['fullname']
         self.nip = user['nip']
-        self.access_token = user['access_token']
-        self.public_key = user['public_key']
-        self.private_key = user['private_key']
-        self.status = user['status']
         self.role = user['role']
         self.created = user['created']
-        self.last_login = user['last_login']
 
     @property
     def serialize(self):

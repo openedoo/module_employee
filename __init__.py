@@ -74,7 +74,7 @@ def edit(employee_id):
     return render_template('edit.html', data=employee)
 
 
-@module_employee.route('/delete/<employee_id>', methods=['GET', 'POST'])
+@module_employee.route('/delete/<employee_id>', methods=['GET'])
 @login_required
 def delete(employee_id):
     User.query.filter_by(id=employee_id).delete()

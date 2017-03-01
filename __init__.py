@@ -7,7 +7,7 @@ from openedoo.core.libs.tools import (session_encode, hashing_werkzeug,
 from openedoo import app, db
 from database import User
 from flask import jsonify, flash, url_for
-from .forms import Login, AddEmployee, flash_errors
+from .forms import Login, AddEmployee, UpdateEmployee, flash_errors
 
 
 module_employee = blueprint('module_employee', __name__,
@@ -86,11 +86,20 @@ def add():
 @module_employee.route('/edit/<employee_id>', methods=['GET', 'POST'])
 @login_required
 def edit(employee_id):
-    """Shows existing data,
-    The Update process is not yet implemented
-    """
     employee = db.session.query(User).get(employee_id)
-    return render_template('edit.html', data=employee)
+    updateEmployee = UpdateEmployee()
+    isUpdateEmployeeValid = updateEmployee.validate_on_submit()
+    if isUpdateEmployeeValid:
+        employee.username = request.form['username']
+        employee.fullname = request.form['fullname']
+        employee.nip = request.form['nip']
+        db.session.commit()
+        flash('Successfully updated.!')
+        url = url_for('module_employee.edit', employee_id=employee.id)
+        return redirect(url)
+    else:
+        flash_errors(updateEmployee)
+    return render_template('edit.html', data=employee, form=updateEmployee)
 
 
 @module_employee.route('/delete/<employee_id>', methods=['GET'])

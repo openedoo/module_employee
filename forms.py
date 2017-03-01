@@ -47,3 +47,21 @@ class AddEmployee(FlaskForm):
         ]
     )
     verifyPassword = PasswordField('Verify password')
+
+
+class UpdateEmployee(FlaskForm):
+    username = StringField(
+        'Username',
+        validators=[
+            DataRequired(),
+            Length(max=16)
+        ]
+    )
+    fullname = StringField(
+        'Full name',
+        validators=[DataRequired()]
+    )
+    nip = StringField(
+        'Nip',
+        validators=[DataRequired()]
+    )

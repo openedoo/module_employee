@@ -24,3 +24,4 @@ $ gulp
 ## #TODO: list
 * Update existing employee data
 * Make codebase more modular and clean
+* Better notification message

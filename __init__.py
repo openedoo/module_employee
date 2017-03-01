@@ -7,7 +7,7 @@ from openedoo.core.libs.tools import (session_encode, hashing_werkzeug,
 from openedoo import app, db
 from database import User
 from flask import jsonify, flash, url_for
-from .forms import Login, flash_errors
+from .forms import Login, AddEmployee, flash_errors
 
 
 module_employee = blueprint('module_employee', __name__,
@@ -60,8 +60,25 @@ def login():
 @module_employee.route('/add', methods=['GET', 'POST'])
 @login_required
 def add():
-    """The adding employee process is not yet implemented"""
-    return render_template('add-employee.html')
+    addEmployee = AddEmployee()
+    isAddEmployeeValid = addEmployee.validate_on_submit()
+    if isAddEmployeeValid:
+        employee = {
+            'username': request.form['username'],
+            'fullname': request.form['fullname'],
+            'password': hashing_werkzeug(request.form['password']),
+            'nip': request.form['nip'],
+            'role': 'employee',
+            'created': datetime.datetime.now()
+        }
+        employeeData = User(employee)
+        db.session.add(employeeData)
+        db.session.commit()
+        flash('Employee Successfully added.')
+        return redirect(url_for('module_employee.dashboard'))
+    else:
+        flash_errors(addEmployee)
+    return render_template('add-employee.html', form=addEmployee)
 
 
 @module_employee.route('/edit/<employee_id>', methods=['GET', 'POST'])

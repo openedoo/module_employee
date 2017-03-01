@@ -1,7 +1,7 @@
 from flask import flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired, Email, Length
+from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 
 def flash_errors(form):
@@ -21,3 +21,29 @@ class Login(FlaskForm):
                            validators=[DataRequired(), Length(max=16)])
     password = PasswordField('Password',
                              validators=[DataRequired()])
+
+
+class AddEmployee(FlaskForm):
+    username = StringField(
+        'Username',
+        validators=[
+            DataRequired(),
+            Length(max=16)
+        ]
+    )
+    fullname = StringField(
+        'Full name',
+        validators=[DataRequired()]
+    )
+    nip = StringField(
+        'Nip',
+        validators=[DataRequired()]
+    )
+    password = PasswordField(
+        'password',
+        validators=[
+            DataRequired(),
+            EqualTo('verifyPassword', message='Password must match.')
+        ]
+    )
+    verifyPassword = PasswordField('Verify password')

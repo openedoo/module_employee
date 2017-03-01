@@ -34,6 +34,7 @@ def login_required(f):
 @login_required
 def dashboard():
     employees = User.query.limit(5).all()
+    db.session.close()
     return render_template('dashboard.html', data=employees)
 
 
@@ -45,6 +46,7 @@ def login():
         username = request.form['username']
         password = request.form['password']
         employee = User.query.filter_by(username=username).first()
+        db.session.close()
         if check_werkzeug(employee.password, password):
             encodedSession = session_encode(employee.username)
             session['username'] = encodedSession
@@ -73,6 +75,7 @@ def add():
         employeeData = User(employee)
         db.session.add(employeeData)
         db.session.commit()
+        db.session.close()
         flash('Employee Successfully added.')
         return redirect(url_for('module_employee.dashboard'))
     else:
@@ -95,6 +98,7 @@ def edit(employee_id):
 def delete(employee_id):
     User.query.filter_by(id=employee_id).delete()
     db.session.commit()
+    db.session.close()
     flash('Successfully deleted.')
     return redirect(url_for('module_employee.dashboard'))
 

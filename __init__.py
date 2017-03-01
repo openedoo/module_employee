@@ -40,7 +40,6 @@ def dashboard():
 @module_employee.route('/login', methods=['GET', 'POST'])
 def login():
     loginForm = Login()
-    reqMethod = request.method
     validateForm = loginForm.validate_on_submit()
     if validateForm:
         username = request.form['username']

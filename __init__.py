@@ -57,13 +57,6 @@ def login():
     return render_template('login.html', form=loginForm)
 
 
-@module_employee.route('/employees', methods=['GET'])
-@login_required
-def employees():
-    print session['username']
-    return jsonify([i.serialize for i in User.query.all()])
-
-
 @module_employee.route('/add', methods=['GET', 'POST'])
 @login_required
 def add():

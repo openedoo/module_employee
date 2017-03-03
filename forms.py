@@ -49,7 +49,7 @@ class AddEmployee(FlaskForm):
     verifyPassword = PasswordField('Verify password')
 
 
-class UpdateEmployee(FlaskForm):
+class EditEmployee(FlaskForm):
     username = StringField(
         'Username',
         validators=[

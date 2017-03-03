@@ -7,7 +7,7 @@ from openedoo.core.libs.tools import (session_encode, hashing_werkzeug,
 from openedoo import app, db
 from database import User
 from flask import jsonify, flash, url_for
-from .forms import Login, AddEmployee, UpdateEmployee, flash_errors
+from .forms import Login, AddEmployee, EditEmployee, flash_errors
 
 
 module_employee = blueprint('module_employee', __name__,
@@ -87,9 +87,9 @@ def add():
 @login_required
 def edit(employee_id):
     employee = db.session.query(User).get(employee_id)
-    updateEmployee = UpdateEmployee()
-    isUpdateEmployeeValid = updateEmployee.validate_on_submit()
-    if isUpdateEmployeeValid:
+    editEmployee = EditEmployee()
+    isEditEmployeeValid = editEmployee.validate_on_submit()
+    if isEditEmployeeValid:
         employee.username = request.form['username']
         employee.fullname = request.form['fullname']
         employee.nip = request.form['nip']
@@ -98,8 +98,8 @@ def edit(employee_id):
         url = url_for('module_employee.edit', employee_id=employee.id)
         return redirect(url)
     else:
-        flash_errors(updateEmployee)
-    return render_template('edit.html', data=employee, form=updateEmployee)
+        flash_errors(editEmployee)
+    return render_template('edit.html', data=employee, form=editEmployee)
 
 
 @module_employee.route('/delete/<employee_id>', methods=['GET'])

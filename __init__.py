@@ -47,7 +47,7 @@ def login():
         password = request.form['password']
         employee = User.query.filter_by(username=username).first()
         db.session.close()
-        if check_werkzeug(employee.password, password):
+        if employee and check_werkzeug(employee.password, password):
             encodedSession = session_encode(employee.username)
             session['username'] = encodedSession
             return redirect(url_for('module_employee.dashboard'))

@@ -18,6 +18,19 @@
                   </li>
                 </ul>
               </nav>
+              <nav class="pull-right">
+                <form class="form-inline" method="post" action="{{ url_for('module_employee.search') }}">
+                  <ul class="list-unstyled list-inline">
+                    <li>
+                      <input class="form-control" type="text" name="keyword" placeholder="search">
+                    </li>
+                    <li>
+                      <button type="submit" class="btn btn-default btn-circle"><i class="fa fa-search"></i></button>
+                    </li>
+                  </ul>
+
+                </form>
+              </nav>
             </div>
           </div>
 

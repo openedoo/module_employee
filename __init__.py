@@ -117,3 +117,10 @@ def delete(employee_id):
 def logout():
     session['username'] = False
     return render_template('logout.html')
+
+
+@module_employee.route('/search', methods=['GET', 'POST'])
+def search():
+    keyword = request.form['keyword']
+    employees = User.query.filter(User.fullname.like("%"+keyword+"%")).all()
+    return render_template('dashboard.html', data=employees)

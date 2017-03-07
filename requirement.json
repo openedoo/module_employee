@@ -1,1 +1,12 @@
-{"comment": "my module name is module_employee", "requirement": "openedoo_core", "version": "0.1.0", "pip_library": ["Faker", "Flask-WTF"], "name": "module_employee", "url": null, "url_endpoint": "/module_employee", "type": "end_point"}
+{
+    "name": "module_employee",
+    "version": "0.0.1",
+    "requirement": [{}],
+    "pip_library": ["flask-wtf"],
+    "descriptiom":"testing modul openedoo",
+    "type":"git",
+    "url_endpoint":"/employee",
+    "url_git":"https://github.com/openedoo/module_employee",
+    "author":"officially",
+    "database":"database.py"
+}

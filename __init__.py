@@ -120,6 +120,7 @@ def logout():
 
 
 @module_employee.route('/search', methods=['GET', 'POST'])
+@login_required
 def search():
     keyword = request.form['keyword']
     employees = User.query.filter(User.fullname.like("%"+keyword+"%")).all()

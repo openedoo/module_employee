@@ -5,7 +5,7 @@ from openedoo.core.libs import (render_template, redirect, request,
 from openedoo.core.libs.tools import (session_encode, hashing_werkzeug,
                                       check_werkzeug)
 from openedoo import app, db
-from database import User
+from modules.module_employee.models import User
 from flask import jsonify, flash, url_for
 from .forms import Login, AddEmployee, EditEmployee, flash_errors
 

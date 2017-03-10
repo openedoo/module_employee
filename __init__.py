@@ -36,7 +36,12 @@ def login_required(f):
 def dashboard():
     employees = User.query.all()
     db.session.close()
-    return render_template('dashboard.html', data=employees)
+
+    # A flag to show admin menu in the navigation bar
+    showAdminNav = True
+    return render_template('dashboard.html',
+                           data=employees,
+                           showAdminNav=showAdminNav)
 
 
 @module_employee.route('/login', methods=['GET', 'POST'])
@@ -81,7 +86,12 @@ def add():
         return redirect(url_for('module_employee.dashboard'))
     else:
         flash_errors(addEmployee)
-    return render_template('add-employee.html', form=addEmployee)
+
+    # A flag to show admin menu in the navigation bar
+    showAdminNav = True
+    return render_template('add-employee.html',
+                           form=addEmployee,
+                           showAdminNav=showAdminNav)
 
 
 @module_employee.route('/edit/<employee_id>', methods=['GET', 'POST'])
@@ -100,7 +110,13 @@ def edit(employee_id):
         return redirect(url)
     else:
         flash_errors(editEmployee)
-    return render_template('edit.html', data=employee, form=editEmployee)
+
+    # A flag to show admin menu in the navigation bar
+    showAdminNav = True
+    return render_template('edit.html',
+                           data=employee,
+                           form=editEmployee,
+                           showAdminNav=showAdminNav)
 
 
 @module_employee.route('/delete/<employee_id>', methods=['GET'])
@@ -125,4 +141,9 @@ def logout():
 def search():
     keyword = request.form['keyword']
     employees = User.query.filter(User.fullname.like("%"+keyword+"%")).all()
-    return render_template('dashboard.html', data=employees)
+
+    # A flag to show admin menu in the navigation bar
+    showAdminNav = True
+    return render_template('dashboard.html',
+                           data=employees,
+                           showAdminNav=showAdminNav)

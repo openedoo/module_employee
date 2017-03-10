@@ -1,1 +1,1 @@
-from .forms import flash_errors, LoginForm, AddEmployeeForm, EditEmployeeForm
+from .employee import flash_errors, LoginForm, AddEmployeeForm, EditEmployeeForm

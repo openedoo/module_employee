@@ -1,11 +1,10 @@
-from openedoo import db
 from flask import flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
 from wtforms.validators import (DataRequired, Email, Length,
                                 EqualTo, ValidationError)
 from sqlalchemy import and_, not_
-from .database import User
+from modules.module_employee.models import User
 
 
 def flash_errors(form):
@@ -80,7 +79,7 @@ class EditEmployeeForm(FlaskForm):
     def __init__(self, user, *args, **kwargs):
         self.user = user
         kwargs['obj'] = self.user
-        super(EditEmployee, self).__init__(*args, **kwargs)
+        super(EditEmployeeForm, self).__init__(*args, **kwargs)
 
     def validate_username(self, field):
         """Username must unique, check username that is not current User.id"""

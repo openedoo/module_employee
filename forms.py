@@ -1,7 +1,9 @@
 from flask import flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
-from wtforms.validators import DataRequired, Email, Length, EqualTo
+from wtforms.validators import (DataRequired, Email, Length,
+                                EqualTo, ValidationError)
+from .database import User
 
 
 def flash_errors(form):
@@ -47,6 +49,13 @@ class AddEmployee(FlaskForm):
         ]
     )
     verifyPassword = PasswordField('Verify password')
+
+    def validate_username(self, field):
+        """Username must unique"""
+        username = User.query.filter_by(username=field.data).first()
+        if username:
+            raise ValidationError("This username is already taken. \
+            Please choose another username.")
 
 
 class EditEmployee(FlaskForm):

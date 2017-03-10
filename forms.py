@@ -1,8 +1,10 @@
+from openedoo import db
 from flask import flash
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField
 from wtforms.validators import (DataRequired, Email, Length,
                                 EqualTo, ValidationError)
+from sqlalchemy import and_, not_
 from .database import User
 
 
@@ -52,10 +54,10 @@ class AddEmployee(FlaskForm):
 
     def validate_username(self, field):
         """Username must unique"""
-        username = User.query.filter_by(username=field.data).first()
-        if username:
-            raise ValidationError("This username is already taken. \
-            Please choose another username.")
+        isUsernameExist = User.query.filter_by(username=field.data).first()
+        if isUsernameExist:
+            raise ValidationError('This username is already taken. \
+            Please choose another username.')
 
 
 class EditEmployee(FlaskForm):
@@ -74,3 +76,18 @@ class EditEmployee(FlaskForm):
         'Nip',
         validators=[DataRequired()]
     )
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        kwargs['obj'] = self.user
+        super(EditEmployee, self).__init__(*args, **kwargs)
+
+    def validate_username(self, field):
+        """Username must unique, check username that is not current User.id"""
+        isUsernameExist = User.query.filter(and_(
+                                            User.username.like(field.data),
+                                            not_((User.id == self.user.id))
+                                            )).first()
+        if isUsernameExist:
+            raise ValidationError('This username is already taken. \
+            Please choose another username.')

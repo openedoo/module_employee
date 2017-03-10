@@ -87,7 +87,7 @@ def add():
 @login_required
 def edit(employee_id):
     employee = db.session.query(User).get(employee_id)
-    editEmployee = EditEmployee()
+    editEmployee = EditEmployee(employee)
     isEditEmployeeValid = editEmployee.validate_on_submit()
     if isEditEmployeeValid:
         employee.username = request.form['username']

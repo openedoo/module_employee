@@ -20,14 +20,14 @@ def flash_errors(form):
             ))
 
 
-class Login(FlaskForm):
+class LoginForm(FlaskForm):
     username = StringField('Username',
                            validators=[DataRequired(), Length(max=16)])
     password = PasswordField('Password',
                              validators=[DataRequired()])
 
 
-class AddEmployee(FlaskForm):
+class AddEmployeeForm(FlaskForm):
     username = StringField(
         'Username',
         validators=[
@@ -60,7 +60,7 @@ class AddEmployee(FlaskForm):
             Please choose another username.')
 
 
-class EditEmployee(FlaskForm):
+class EditEmployeeForm(FlaskForm):
     username = StringField(
         'Username',
         validators=[

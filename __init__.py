@@ -5,9 +5,10 @@ from openedoo.core.libs import (render_template, redirect, request,
 from openedoo.core.libs.tools import (session_encode, hashing_werkzeug,
                                       check_werkzeug)
 from openedoo import app, db
-from database import User
+from .models import User
+from .forms import (flash_errors, LoginForm,
+                    EditEmployeeForm, AddEmployeeForm)
 from flask import jsonify, flash, url_for
-from .forms import Login, AddEmployee, EditEmployee, flash_errors
 
 
 module_employee = blueprint('module_employee', __name__,
@@ -40,7 +41,7 @@ def dashboard():
 
 @module_employee.route('/login', methods=['GET', 'POST'])
 def login():
-    loginForm = Login()
+    loginForm = LoginForm()
     validateForm = loginForm.validate_on_submit()
     if validateForm:
         username = request.form['username']
@@ -61,7 +62,7 @@ def login():
 @module_employee.route('/add', methods=['GET', 'POST'])
 @login_required
 def add():
-    addEmployee = AddEmployee()
+    addEmployee = AddEmployeeForm()
     isAddEmployeeValid = addEmployee.validate_on_submit()
     if isAddEmployeeValid:
         employee = {

@@ -34,7 +34,7 @@ def login_required(f):
 @module_employee.route('/', methods=['GET'])
 @login_required
 def dashboard():
-    employees = User.query.limit(5).all()
+    employees = User.query.all()
     db.session.close()
     return render_template('dashboard.html', data=employees)
 

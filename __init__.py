@@ -75,7 +75,6 @@ def add():
             'fullname': request.form['fullname'],
             'password': hashing_werkzeug(request.form['password']),
             'nip': request.form['nip'],
-            'role': 'employee',
             'created': datetime.datetime.now()
         }
         employeeData = User(employee)

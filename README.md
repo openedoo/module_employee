@@ -8,11 +8,23 @@ Install this module inside Openedoo
 ```
 $ openedoo manage.py module install https://github.com/openedoo/module_employee
 ```
+
+Update file in `openedoo_project/tables.py`
+```
+from modules.module_employee import models
+```
+
 Then update your database
 ```
 $ openedoo manage.py db upgrade
 $ openedoo manage.py db migrate
 ```
+
+You can see this modules at
+```
+http://<your-host>/employee
+```
+
 
 ## UI Developing
 Use Gulp for compiling sass files inside `module_employee`

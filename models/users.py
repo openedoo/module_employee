@@ -13,7 +13,7 @@ def dump_datetime(val):
 
 
 class User(db.Model):
-    __tablename__ = '{db_prefix}_empl_user'.format(db_prefix=database_prefix)
+    __tablename__ = '{db_prefix}_user'.format(db_prefix=database_prefix)
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     username = db.Column(db.String(16), unique=True)
     password = db.Column(db.Text())
@@ -23,7 +23,6 @@ class User(db.Model):
     public_key = db.Column(db.Text())
     private_key = db.Column(db.Text())
     status = db.Column(db.Integer)
-    role = db.Column(db.String(255))
     created = db.Column(db.DateTime())
     last_login = db.Column(db.DateTime())
 
@@ -35,7 +34,6 @@ class User(db.Model):
         self.password = user['password']
         self.fullname = user['fullname']
         self.nip = user['nip']
-        self.role = user['role']
         self.created = user['created']
 
     @property
@@ -51,7 +49,6 @@ class User(db.Model):
             'public_key': self.public_key,
             'private_key': self.private_key,
             'status': self.status,
-            'role': self.role,
             'created': dump_datetime(self.created),
             'last_login': dump_datetime(self.last_login)
         }

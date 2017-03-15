@@ -1,5 +1,5 @@
-from openedoo import db
-from openedoo import config
+from openedoo_project import db
+from openedoo_project import config
 
 database_prefix = config.database_prefix
 

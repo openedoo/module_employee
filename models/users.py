@@ -1,6 +1,5 @@
-from openedoo import db
-from openedoo import config
-from sqlalchemy.orm import relationship
+from openedoo_project import db
+from openedoo_project import config
 
 database_prefix = config.database_prefix
 
@@ -14,7 +13,8 @@ def dump_datetime(val):
 
 class User(db.Model):
     __tablename__ = '{db_prefix}_user'.format(db_prefix=database_prefix)
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    id = db.Column(db.Integer, primary_key=True,
+                   autoincrement=True, nullable=False)
     username = db.Column(db.String(16), unique=True)
     password = db.Column(db.Text())
     fullname = db.Column(db.Text())

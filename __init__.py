@@ -4,7 +4,7 @@ from openedoo.core.libs import (render_template, redirect, request,
                                 session, blueprint)
 from openedoo.core.libs.tools import (session_encode, hashing_werkzeug,
                                       check_werkzeug)
-from openedoo import app, db
+from openedoo_project import app, db
 from .models import User
 from .forms import (flash_errors, LoginForm,
                     EditEmployeeForm, AddEmployeeForm)

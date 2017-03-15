@@ -16,8 +16,8 @@ from modules.module_employee import models
 
 Then update your database
 ```
-$ openedoo manage.py db upgrade
-$ openedoo manage.py db migrate
+$ python manage.py db upgrade
+$ python manage.py db migrate
 ```
 
 You can see this modules at

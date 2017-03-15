@@ -1,34 +1,20 @@
 import datetime
 from functools import wraps
+from flask import jsonify, flash, url_for
 from openedoo.core.libs import (render_template, redirect, request,
                                 session, blueprint)
 from openedoo.core.libs.tools import (session_encode, hashing_werkzeug,
                                       check_werkzeug)
 from openedoo_project import app, db
+from .views import login_required
 from .models import User
 from .forms import (flash_errors, LoginForm,
                     EditEmployeeForm, AddEmployeeForm)
-from flask import jsonify, flash, url_for
 
 
 module_employee = blueprint('module_employee', __name__,
                             template_folder='templates',
                             static_folder='static')
-
-
-def login_required(f):
-    @wraps(f)
-    def wrap(*args, **kwargs):
-        session.permanent = True
-        try:
-            if session['username'] is False:
-                flash('You must login first!')
-                return redirect(url_for('module_employee.login'))
-            return f(*args, **kwargs)
-        except KeyError:
-            flash('Your session is timeout!')
-            return redirect(url_for('module_employee.login'))
-    return wrap
 
 
 @module_employee.route('/', methods=['GET'])

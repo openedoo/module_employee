@@ -1,1 +1,2 @@
-from .employee import flash_errors, LoginForm, AddEmployeeForm, EditEmployeeForm
+from .employee import LoginForm, AddEmployeeForm, EditEmployeeForm, AssignAsTeacherForm
+from .form_message import flash_errors

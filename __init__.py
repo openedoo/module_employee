@@ -1,20 +1,48 @@
 import datetime
-from functools import wraps
-from flask import jsonify, flash, url_for
-from openedoo.core.libs import (render_template, redirect, request,
-                                session, blueprint)
-from openedoo.core.libs.tools import (session_encode, hashing_werkzeug,
-                                      check_werkzeug)
-from openedoo_project import app, db
+from flask import flash
+from openedoo_project import db
+from openedoo.core.libs import (Blueprint, render_template, request, redirect,
+                                session)
+from openedoo.core.libs.tools import (hashing_werkzeug, check_werkzeug,
+                                      session_encode)
 from .views import login_required
-from .models import User
-from .forms import (flash_errors, LoginForm,
-                    EditEmployeeForm, AddEmployeeForm)
+from .forms import (LoginForm, AddEmployeeForm, EditEmployeeForm, flash_errors,
+                    AssignAsTeacherForm)
+from .models import User, Teacher
 
 
-module_employee = blueprint('module_employee', __name__,
+module_employee = Blueprint('module_employee', __name__,
                             template_folder='templates',
                             static_folder='static')
+
+
+@module_employee.route('/teacher/assign/<employee_id>', methods=['GET', 'POST'])
+@login_required
+def assign(employee_id):
+    assignAsTeacherForm = AssignAsTeacherForm()
+    subjects = assignAsTeacherForm.subject.choices
+    isAssignAsTeacherValid = assignAsTeacherForm.validate_on_submit()
+    print request.form['subject_id']
+
+    if isAssignAsTeacherValid:
+        print request.form['subject_id']
+        teacherData = {
+            'user_id': employee_id,
+            'subject_id': request.form['subject_id']
+        }
+        createTeacher = Teacher(teacherData)
+        db.session.add(createTeacher)
+        print createTeacher
+        print db.session.commit()
+        return redirect(url_for('module_employee.dashboard'))
+
+    # A flag to show admin menu in the navigation bar
+    showAdminNav = True
+    return render_template('assign.html',
+                           form=assignAsTeacherForm,
+                           showAdminNav=showAdminNav,
+                           subjects=subjects,
+                           employee_id=employee_id)
 
 
 @module_employee.route('/', methods=['GET'])

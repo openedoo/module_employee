@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="wrapper">
+  <div class="row">
+    <div class="center-page">
+      <h4 class="text-center">Assign as teacher for what subject?</h4>
+      <div class="col-md-6 col-md-offset-3 white-panel">
+
+        {% include "form-message.html" %}
+
+        <form method="POST" action="{{ url_for('module_employee.assign', employee_id=employee_id) }}">
+          {{ form.csrf_token }}
+
+          <div class="form-group label-floating">
+            <label class="control-label">subject</label>
+            <select class="form-control" name="subject_id">
+              {% for key in subjects %}
+                <option value="{{ key }}">{{ subjects[key] }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <input type="submit" class="btn btn-primary pull-right" value="Assign as Teacher">
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

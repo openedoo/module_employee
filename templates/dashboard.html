@@ -40,6 +40,7 @@
                 <th>Username</th>
                 <th>Fullname</th>
                 <th>Nip</th>
+                <th>Role</th>
                 <th>Edit</th>
               </tr>
             </thead>
@@ -50,6 +51,7 @@
                   <td>{{ employee.username }}</td>
                   <td>{{ employee.fullname }}</td>
                   <td>{{ employee.nip }}</td>
+                  <td><a href="{{ url_for('module_employee.assign', employee_id=employee.id) }}">Assign as Teacher</a></td>
                   <td><a href="{{ url_for('module_employee.edit', employee_id=employee.id) }}">Edit</a> | <a href="#deleteConfirmationModal" class="delete-link" data-username="{{ employee.username }}" data-link="{{ url_for('module_employee.delete', employee_id=employee.id) }}" data-toggle="modal" data-target="#deleteConfirmationModal">Delete</a></td>
                 </tr>
               {% endfor %}

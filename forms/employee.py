@@ -1,22 +1,9 @@
-from flask import flash
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField
-from wtforms.validators import (DataRequired, Email, Length,
-                                EqualTo, ValidationError)
+from wtforms import StringField, PasswordField, SelectField
+from wtforms.validators import (DataRequired, Email, Length, EqualTo,
+                                ValidationError)
 from sqlalchemy import and_, not_
 from modules.module_employee.models import User
-
-
-def flash_errors(form):
-    """ Universal interface to handle form error.
-    Handles form error with the help of flash message
-    """
-    for field, errors in form.errors.items():
-        for error in errors:
-            flash(u'Error in the %s field - %s' % (
-                getattr(form, field).label.text,
-                error
-            ))
 
 
 class LoginForm(FlaskForm):
@@ -90,3 +77,7 @@ class EditEmployeeForm(FlaskForm):
         if isUsernameExist:
             raise ValidationError('This username is already taken. \
             Please choose another username.')
+
+
+class AssignAsTeacherForm(FlaskForm):
+    subject = SelectField('Subject', choices={'1': 'tesss', '2': 'tessse'}, validators=[DataRequired()])

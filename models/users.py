@@ -35,20 +35,3 @@ class User(db.Model):
         self.fullname = user['fullname']
         self.nip = user['nip']
         self.created = user['created']
-
-    @property
-    def serialize(self):
-        """Return object data in dict to ease the serialize of jsonify"""
-        return {
-            'id': self.id,
-            'username': self.username,
-            'password': self.password,
-            'fullname': self.fullname,
-            'nip': self.nip,
-            'access_token': self.access_token,
-            'public_key': self.public_key,
-            'private_key': self.private_key,
-            'status': self.status,
-            'created': dump_datetime(self.created),
-            'last_login': dump_datetime(self.last_login)
-        }

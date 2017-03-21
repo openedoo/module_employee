@@ -1,5 +1,5 @@
 import datetime
-from flask import flash
+from flask import flash, url_for
 from openedoo_project import db
 from openedoo.core.libs import (Blueprint, render_template, request, redirect,
                                 session)
@@ -16,25 +16,25 @@ module_employee = Blueprint('module_employee', __name__,
                             static_folder='static')
 
 
-@module_employee.route('/teacher/assign/<employee_id>', methods=['GET', 'POST'])
+@module_employee.route('/assign/<employee_id>', methods=['GET', 'POST'])
 @login_required
 def assign(employee_id):
     assignAsTeacherForm = AssignAsTeacherForm()
     subjects = assignAsTeacherForm.subject.choices
     isAssignAsTeacherValid = assignAsTeacherForm.validate_on_submit()
-    print request.form['subject_id']
 
     if isAssignAsTeacherValid:
-        print request.form['subject_id']
         teacherData = {
             'user_id': employee_id,
-            'subject_id': request.form['subject_id']
+            'subject_id': request.form['subject']
         }
         createTeacher = Teacher(teacherData)
         db.session.add(createTeacher)
-        print createTeacher
-        print db.session.commit()
+        db.session.commit()
+        flash('Teacher Successfully added.')
         return redirect(url_for('module_employee.dashboard'))
+    else:
+        flash_errors(assignAsTeacherForm)
 
     # A flag to show admin menu in the navigation bar
     showAdminNav = True

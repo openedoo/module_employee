@@ -14,11 +14,9 @@
 
           <div class="form-group label-floating">
             <label class="control-label">subject</label>
-            <select class="form-control" name="subject_id">
-              {% for key in subjects %}
-                <option value="{{ key }}">{{ subjects[key] }}</option>
-              {% endfor %}
-            </select>
+
+            {{ form.subject(class_='form-control') }}
+            
           </div>
 
           <input type="submit" class="btn btn-primary pull-right" value="Assign as Teacher">

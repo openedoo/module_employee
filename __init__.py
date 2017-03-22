@@ -7,14 +7,42 @@ from openedoo.core.libs.tools import (hashing_werkzeug, check_werkzeug,
                                       session_encode)
 from .views import login_required
 from .forms import (LoginForm, AddEmployeeForm, EditEmployeeForm, flash_errors,
-                    AssignAsTeacherForm)
-from .models import User, Teacher
+                    AssignAsTeacherForm, AddSubjectForm)
+from .models import User, Teacher, Subject
 
 
 module_employee = Blueprint('module_employee', __name__,
                             template_folder='templates',
                             static_folder='static')
 
+
+@module_employee.route('/subject/add', methods=['GET', 'POST'])
+@login_required
+def add_subject():
+    addSubjectForm = AddSubjectForm()
+    isAddSubjectFormValid = addSubjectForm.validate_on_submit()
+    if isAddSubjectFormValid:
+        data = {
+            'code': request.form['code'],
+            'name': request.form['name'],
+            'major': request.form['major'],
+            'grade': request.form['grade'],
+            'weight': request.form['weight'],
+            'category': request.form['category'],
+            'curriculum': request.form['curriculum'],
+            'alias': request.form['alias']
+        }
+        subject = Subject(data)
+        db.session.add(subject)
+        db.session.commit()
+        return redirect(url_for('module_employee.dashboard'))
+    else:
+        flash_errors(addSubjectForm)
+
+    # A flag to show admin menu in the navigation bar
+    showAdminNav = True
+    return render_template('add-subject.html', form=addSubjectForm,
+                            showAdminNav=showAdminNav)
 
 @module_employee.route('/assign/<employee_id>', methods=['GET', 'POST'])
 @login_required

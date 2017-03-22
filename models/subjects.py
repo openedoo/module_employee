@@ -15,3 +15,16 @@ class Subject(db.Model):
     category = db.Column(db.String(8))
     curriculum = db.Column(db.Integer)
     alias = db.Column(db.Text)
+
+    def __init__(self, data={}):
+        if data is None:
+            raise ValueError('Subject is supplied with wrong data!')
+
+        self.code = data['code']
+        self.name = data['name']
+        self.major = data['major']
+        self.grade = data['grade']
+        self.weight = data['weight']
+        self.category = data['category']
+        self.curriculum = data['curriculum']
+        self.alias = data['alias']

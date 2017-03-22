@@ -36,15 +36,44 @@ class Employee(unittest.TestCase):
         }, follow_redirects=True)
         self.assertTrue(partOfThePage in login.get_data(as_text=True))
 
-        # Superuser can login
+        # Superuser employee can login
         partOfThePage = '<div class=\"main-dashboard container\">'
         login = self.client.post(url_for('module_employee.login'),
                                  data=self.superuser,
                                  follow_redirects=True)
         self.assertTrue(partOfThePage in login.get_data(as_text=True))
 
-        # Superuser is succesfully logged out
+        # Superuser employee is succesfully logged out
         partOfThePage = 'Successfully logged out, good bye!'
         logout = self.client.get(url_for('module_employee.logout'),
                                  follow_redirects=True)
         self.assertTrue(partOfThePage in logout.get_data(as_text=True))
+
+    def test_employee_adds_subject(self):
+        # Employee login
+        partOfTheDashboard = '<div class=\"main-dashboard container\">'
+        login = self.client.post(url_for('module_employee.login'),
+                                 data=self.superuser,
+                                 follow_redirects=True)
+        self.assertTrue(partOfTheDashboard in login.get_data(as_text=True))
+
+        # Get add subject page
+        partOfThePage = '<form class=\"form\" method=\"post\" action=\"/employee/subject/add\">'
+        addSubject = self.client.get(url_for('module_employee.add_subject'),
+                                     follow_redirects=True)
+        self.assertTrue(partOfThePage in addSubject.get_data(as_text=True))
+
+        # Subject is succesfully added
+        subjectData = {
+            'code': 'MK654',
+            'name': 'Matematika I',
+            'major': 'IPA',
+            'grade': 11,
+            'weight': '4',
+            'category': 'wajib',
+            'curriculum': 1999,
+            'alias': ''
+        }
+        subject = self.client.post(url_for('module_employee.add_subject'),
+                                   data=subjectData)
+        self.assertTrue(subject.status_code == 302)

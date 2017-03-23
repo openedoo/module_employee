@@ -1,15 +1,15 @@
 import datetime
-from flask import flash, url_for
+from flask import g, flash, url_for
 from openedoo_project import db
 from openedoo.core.libs import (Blueprint, render_template, request, redirect,
                                 session)
 from openedoo.core.libs.tools import (hashing_werkzeug, check_werkzeug,
                                       session_encode)
-from .views import login_required
+from .views import login_required, site_setting
 from .forms import (LoginForm, AddEmployeeForm, EditEmployeeForm, flash_errors,
                     AssignAsTeacherForm, AddSubjectForm)
 from .models import User, Teacher, Subject
-
+from .views import API
 
 module_employee = Blueprint('module_employee', __name__,
                             template_folder='templates',
@@ -41,8 +41,9 @@ def add_subject():
 
     # A flag to show admin menu in the navigation bar
     showAdminNav = True
-    return render_template('add-subject.html', form=addSubjectForm,
-                            showAdminNav=showAdminNav)
+    return render_template('admin/add-subject.html', form=addSubjectForm,
+                           showAdminNav=showAdminNav)
+
 
 @module_employee.route('/assign/<employee_id>', methods=['GET', 'POST'])
 @login_required
@@ -66,7 +67,7 @@ def assign(employee_id):
 
     # A flag to show admin menu in the navigation bar
     showAdminNav = True
-    return render_template('assign.html',
+    return render_template('admin/assign.html',
                            form=assignAsTeacherForm,
                            showAdminNav=showAdminNav,
                            subjects=subjects,
@@ -74,6 +75,7 @@ def assign(employee_id):
 
 
 @module_employee.route('/', methods=['GET'])
+@site_setting
 @login_required
 def dashboard():
     employees = User.query.all()
@@ -81,13 +83,16 @@ def dashboard():
 
     # A flag to show admin menu in the navigation bar
     showAdminNav = True
-    return render_template('dashboard.html',
+    return render_template('admin/dashboard.html',
+                           school=g.school,
                            data=employees,
                            showAdminNav=showAdminNav)
 
 
 @module_employee.route('/login', methods=['GET', 'POST'])
 def login():
+    siteSetting = API.SiteSetting()
+    siteSettingData = siteSetting.get_data()
     loginForm = LoginForm()
     validateForm = loginForm.validate_on_submit()
     if validateForm:
@@ -103,7 +108,9 @@ def login():
     else:
         flash_errors(loginForm)
 
-    return render_template('login.html', form=loginForm)
+    return render_template('admin/login.html',
+                           school=siteSettingData,
+                           form=loginForm)
 
 
 @module_employee.route('/add', methods=['GET', 'POST'])
@@ -130,7 +137,7 @@ def add():
 
     # A flag to show admin menu in the navigation bar
     showAdminNav = True
-    return render_template('add-employee.html',
+    return render_template('admin/add-employee.html',
                            form=addEmployee,
                            showAdminNav=showAdminNav)
 
@@ -154,7 +161,7 @@ def edit(employee_id):
 
     # A flag to show admin menu in the navigation bar
     showAdminNav = True
-    return render_template('edit.html',
+    return render_template('admin/edit.html',
                            data=employee,
                            form=editEmployee,
                            showAdminNav=showAdminNav)
@@ -185,6 +192,6 @@ def search():
 
     # A flag to show admin menu in the navigation bar
     showAdminNav = True
-    return render_template('dashboard.html',
+    return render_template('admin/dashboard.html',
                            data=employees,
                            showAdminNav=showAdminNav)

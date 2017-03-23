@@ -1,1 +1,1 @@
-from .authentication import login_required
+from .decorators import login_required, site_setting

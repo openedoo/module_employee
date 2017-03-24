@@ -26,6 +26,5 @@ def site_setting(f):
         if not hasattr(g, 'school') or g.school is None:
             school = SiteSetting()
             g.school = school.get_data()
-            print g.school
         return f(*args, **kwargs)
     return decorated_function

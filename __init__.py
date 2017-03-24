@@ -89,28 +89,8 @@ def dashboard():
                            showAdminNav=showAdminNav)
 
 
-@module_employee.route('/login', methods=['GET', 'POST'])
-def login():
-    siteSetting = API.SiteSetting()
-    siteSettingData = siteSetting.get_data()
-    loginForm = LoginForm()
-    validateForm = loginForm.validate_on_submit()
-    if validateForm:
-        username = request.form['username']
-        password = request.form['password']
-        employee = User.query.filter_by(username=username).first()
-        db.session.close()
-        if employee and check_werkzeug(employee.password, password):
-            encodedSession = session_encode(employee.username)
-            session['username'] = encodedSession
-            return redirect(url_for('module_employee.dashboard'))
-        flash('Username or password did not match.')
-    else:
-        flash_errors(loginForm)
-
-    return render_template('admin/login.html',
-                           school=siteSettingData,
-                           form=loginForm)
+from modules.module_employee.views.controllers import Login
+module_employee.add_url_rule('/login', view_func=Login.as_view('login'))
 
 
 @module_employee.route('/add', methods=['GET', 'POST'])

@@ -8,7 +8,7 @@ from openedoo.core.libs.tools import (hashing_werkzeug, check_werkzeug,
 from .views import login_required, site_setting
 from .forms import (LoginForm, AddEmployeeForm, EditEmployeeForm, flash_errors,
                     AssignAsTeacherForm, AddSubjectForm)
-from .models import User, Teacher, Subject
+from .models import User, Teacher, Subject, Setting
 from .views import API
 
 module_employee = Blueprint('module_employee', __name__,

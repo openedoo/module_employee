@@ -46,7 +46,6 @@ class Login(Employee):
                 return redirect(url_for('module_employee.dashboard'))
             flash(u'Username or password did not match.', 'error')
         flash_errors(loginForm)
-        print self.get_site_data()
         return render_template('admin/login.html',
                                school=self.get_site_data(),
                                form=loginForm)

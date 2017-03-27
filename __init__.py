@@ -89,37 +89,10 @@ def dashboard():
                            showAdminNav=showAdminNav)
 
 
-from modules.module_employee.views.controllers import Login
-module_employee.add_url_rule('/login', view_func=Login.as_view('login'))
-
-
-@module_employee.route('/add', methods=['GET', 'POST'])
-@login_required
-def add():
-    addEmployee = AddEmployeeForm()
-    isAddEmployeeValid = addEmployee.validate_on_submit()
-    if isAddEmployeeValid:
-        employee = {
-            'username': request.form['username'],
-            'fullname': request.form['fullname'],
-            'password': hashing_werkzeug(request.form['password']),
-            'nip': request.form['nip'],
-            'created': datetime.datetime.now()
-        }
-        employeeData = User(employee)
-        db.session.add(employeeData)
-        db.session.commit()
-        db.session.close()
-        flash('Employee Successfully added.')
-        return redirect(url_for('module_employee.dashboard'))
-    else:
-        flash_errors(addEmployee)
-
-    # A flag to show admin menu in the navigation bar
-    showAdminNav = True
-    return render_template('admin/add-employee.html',
-                           form=addEmployee,
-                           showAdminNav=showAdminNav)
+from modules.module_employee.controllers.employee import EmployeeLogin, EmployeeLogout, AddEmployee
+module_employee.add_url_rule('/admin/login', view_func=EmployeeLogin.as_view('login'))
+module_employee.add_url_rule('/admin/logout', view_func=EmployeeLogout.as_view('logout'))
+module_employee.add_url_rule('/admin/add', view_func=AddEmployee.as_view('add'))
 
 
 @module_employee.route('/edit/<employee_id>', methods=['GET', 'POST'])
@@ -155,13 +128,6 @@ def delete(employee_id):
     db.session.close()
     flash('Successfully deleted.')
     return redirect(url_for('module_employee.dashboard'))
-
-
-@module_employee.route('/logout', methods=['GET'])
-@login_required
-def logout():
-    session['username'] = False
-    return render_template('logout.html')
 
 
 @module_employee.route('/search', methods=['GET', 'POST'])

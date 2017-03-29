@@ -1,13 +1,14 @@
-from flask import g, flash, url_for
-from flask.views import View
-from openedoo.core.libs import (Blueprint, render_template, request, redirect,
-                                session)
+from flask import flash, url_for
+from openedoo.core.libs import (render_template, request, redirect, session)
 from openedoo.core.libs.tools import (hashing_werkzeug, check_werkzeug,
                                       session_encode)
-from modules.module_employee.forms import LoginForm, AddEmployeeForm, flash_errors
-from .base_controller import BaseController
-from modules.module_employee.views.decorators import site_setting, login_required
+from modules.module_employee.forms import LoginForm, AddEmployeeForm, \
+    flash_errors
+from modules.module_employee.views.decorators import site_setting, \
+    login_required
 from modules.module_employee import models as model
+from .base_controller import BaseController
+
 
 class EmployeeLogin(BaseController):
     """Employee login controller."""
@@ -21,7 +22,8 @@ class EmployeeLogin(BaseController):
         if isFormValid:
             username = request.form['username']
             password = request.form['password']
-            employee = model.Employee.query.filter_by(username=username).first()
+            employees = model.Employee.query.filter_by(username=username)
+            employee = employees.first()
             if employee and check_werkzeug(employee.password, password):
                 encodeUsername = session_encode(employee.username)
                 session['username'] = encodeUsername
@@ -41,7 +43,8 @@ class EmployeeLogout(BaseController):
 
     def dispatch_request(self):
         session['username'] = False
-        return render_template('admin/logout.html', school=self.get_site_data())
+        return render_template('admin/logout.html',
+                               school=self.get_site_data())
 
 
 class AddEmployee(BaseController):

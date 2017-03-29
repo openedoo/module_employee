@@ -5,7 +5,7 @@ from openedoo.core.libs.tools import (hashing_werkzeug, check_werkzeug,
                                       session_encode)
 from openedoo_project import db
 from modules.module_employee.forms import LoginForm, AddEmployeeForm, \
-    flash_errors
+    AssignAsTeacherForm, flash_errors
 from modules.module_employee.views.decorators import site_setting, \
     login_required
 from modules.module_employee import models as model
@@ -77,9 +77,39 @@ class AddEmployee(BaseController):
         else:
             flash_errors(addEmployeeForm)
 
-        # A flag to show admin in the navigation bar
-        showAdminNav = True
         return render_template('admin/add-employee.html',
                                form=addEmployeeForm,
                                school=self.get_site_data(),
-                               showAdminNav=showAdminNav)
+                               showAdminNav=self.show_admin_nav())
+
+
+class AssignEmployeeAsTeacher(BaseController):
+    """Assign employee as teacher controller."""
+
+    methods = ['GET', 'POST']
+    decorators = [site_setting, login_required]
+
+    def dispatch_request(self):
+        assignAsTeacherForm = AssignAsTeacherForm()
+        subjects = assignAsTeacherForm.subject.choices
+        isAssignAsTeacherValid = self.is_form_valid(assignAsTeacherForm)
+        employee_id = request.args.get('employee_id')
+        if isAssignAsTeacherValid:
+            teacherData = {
+                'user_id': employee_id,
+                'subject_id': request.form['subject']
+            }
+            createTeacher = model.Teacher(teacherData)
+            db.session.add(createTeacher)
+            db.session.commit()
+            flash('Teacher Successfully added.')
+            return redirect(url_for('module_employee.dashboard'))
+        else:
+            flash_errors(assignAsTeacherForm)
+
+        return render_template('admin/assign.html',
+                               school=self.get_site_data(),
+                               form=assignAsTeacherForm,
+                               showAdminNav=self.show_admin_nav(),
+                               subjects=subjects,
+                               employee_id=employee_id)

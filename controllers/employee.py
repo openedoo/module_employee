@@ -3,6 +3,7 @@ from flask import flash, url_for
 from openedoo.core.libs import (render_template, request, redirect, session)
 from openedoo.core.libs.tools import (hashing_werkzeug, check_werkzeug,
                                       session_encode)
+from openedoo_project import db
 from modules.module_employee.forms import LoginForm, AddEmployeeForm, \
     flash_errors
 from modules.module_employee.views.decorators import site_setting, \
@@ -61,14 +62,14 @@ class AddEmployee(BaseController):
         addEmployeeForm = AddEmployeeForm()
         isAddEmployeeValid = self.is_form_valid(addEmployeeForm)
         if isAddEmployeeValid:
-            employee = {
+            data = {
                 'username': request.form['username'],
                 'fullname': request.form['fullname'],
                 'password': hashing_werkzeug(request.form['password']),
                 'nip': request.form['nip'],
                 'created': datetime.datetime.now()
             }
-            employeeData = User(employee)
+            employeeData = model.Employee(data)
             db.session.add(employeeData)
             db.session.commit()
             flash(u'Employee Successfully Added.')

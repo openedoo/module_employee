@@ -113,3 +113,18 @@ class AssignEmployeeAsTeacher(BaseController):
                                showAdminNav=self.show_admin_nav(),
                                subjects=subjects,
                                employee_id=employee_id)
+
+
+class EmployeeDashboard(BaseController):
+    """Employee dashboard controller."""
+
+    methods = ['GET']
+    decorators = [site_setting, login_required]
+
+    def dispatch_request(self):
+        employees = model.Employee.query.all()
+
+        return render_template('admin/dashboard.html',
+                               school=self.get_site_data(),
+                               data=employees,
+                               showAdminNav=self.show_admin_nav())

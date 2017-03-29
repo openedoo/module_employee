@@ -157,3 +157,17 @@ class EditEmployee(BaseController):
                                data=employee,
                                form=editEmployee,
                                showAdminNav=self.show_admin_nav())
+
+
+class DeleteEmployee(BaseController):
+    """Delete employee controller."""
+
+    methods = ['GET']
+    decorators = [site_setting, login_required]
+
+    def dispatch_request(self):
+        employee_id = request.args.get('employee_id')
+        model.Employee.query.filter_by(id=employee_id).delete()
+        db.session.commit()
+        flash('Successfully deleted.')
+        return redirect(url_for('module_employee.dashboard'))

@@ -13,6 +13,7 @@ def dump_datetime(val):
 
 class User(db.Model):
     __tablename__ = '{db_prefix}_user'.format(db_prefix=database_prefix)
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True,
                    autoincrement=True, nullable=False)
     username = db.Column(db.String(16), unique=True)

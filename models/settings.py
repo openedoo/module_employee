@@ -4,6 +4,7 @@ from openedoo_project import config
 
 class Setting(db.Model):
     __tablename__ = 'module_employee_site_setting'
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     name = db.Column(db.Text)
 

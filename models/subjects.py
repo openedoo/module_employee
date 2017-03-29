@@ -6,6 +6,7 @@ database_prefix = config.database_prefix
 
 class Subject(db.Model):
     __tablename__ = '{db_prefix}_subject'.format(db_prefix=database_prefix)
+    __table_args__ = {'extend_existing': True}
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     code = db.Column(db.String(80))
     name = db.Column(db.Text())

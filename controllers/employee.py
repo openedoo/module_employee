@@ -5,7 +5,7 @@ from openedoo.core.libs.tools import (hashing_werkzeug, check_werkzeug,
                                       session_encode)
 from openedoo_project import db
 from modules.module_employee.forms import LoginForm, AddEmployeeForm, \
-    AssignAsTeacherForm, flash_errors
+    AssignAsTeacherForm, EditEmployeeForm, flash_errors
 from modules.module_employee.views.decorators import site_setting, \
     login_required
 from modules.module_employee import models as model
@@ -127,4 +127,33 @@ class EmployeeDashboard(BaseController):
         return render_template('admin/dashboard.html',
                                school=self.get_site_data(),
                                data=employees,
+                               showAdminNav=self.show_admin_nav())
+
+
+class EditEmployee(BaseController):
+    """Edit employee controller."""
+
+    methods = ['GET', 'POST']
+    decorators = [site_setting, login_required]
+
+    def dispatch_request(self):
+        employee_id = request.args.get('employee_id')
+        employee = model.Employee.query.filter_by(id=employee_id).first()
+        editEmployee = EditEmployeeForm(employee)
+        isEditEmployeeValid = self.is_form_valid(editEmployee)
+        if isEditEmployeeValid:
+            employee.username = request.form['username']
+            employee.fullname = request.form['fullname']
+            employee.nip = request.form['nip']
+            db.session.commit()
+            flash('Successfully updated.!')
+            url = url_for('module_employee.edit', employee_id=employee.id)
+            return redirect(url)
+        else:
+            flash_errors(editEmployee)
+
+        return render_template('admin/edit.html',
+                               school=self.get_site_data(),
+                               data=employee,
+                               form=editEmployee,
                                showAdminNav=self.show_admin_nav())

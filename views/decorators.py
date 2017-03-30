@@ -24,7 +24,10 @@ def site_setting(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not hasattr(g, 'school') or g.school is None:
+            g.school = {'name': ''}
             school = SiteSetting()
-            g.school = school.get_data()
+            schoolData = school.get_data()
+            if schoolData:
+                g.school = schoolData
         return f(*args, **kwargs)
     return decorated_function

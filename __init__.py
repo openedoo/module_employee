@@ -10,7 +10,7 @@ module_employee = Blueprint('module_employee', __name__,
                             static_folder='static')
 
 
-module_employee.add_url_rule('/admin/dashboard',
+module_employee.add_url_rule('/admin',
                              view_func=EmployeeDashboard.as_view('dashboard'))
 module_employee.add_url_rule('/admin/login',
                              view_func=EmployeeLogin.as_view('login'))

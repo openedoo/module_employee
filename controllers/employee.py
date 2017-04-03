@@ -8,7 +8,7 @@ from modules.module_employee.forms import LoginForm, AddEmployeeForm, \
     AssignAsTeacherForm, EditEmployeeForm, AddSubjectForm, flash_errors
 from modules.module_employee.views.decorators import site_setting, \
     login_required
-from modules.module_employee import models as model
+from modules.module_employee import models as db
 from .base_controller import BaseController
 
 
@@ -24,7 +24,7 @@ class EmployeeLogin(BaseController):
         if isFormValid:
             username = request.form['username']
             password = request.form['password']
-            employees = model.Employee.query.filter_by(username=username)
+            employees = db.Employee.query.filter_by(username=username)
             employee = employees.first()
             if employee and check_werkzeug(employee.password, password):
                 encodeUsername = session_encode(employee.username)
@@ -69,7 +69,7 @@ class AddEmployee(BaseController):
                 'nip': request.form['nip'],
                 'created': datetime.datetime.now()
             }
-            employeeData = model.Employee(data)
+            employeeData = db.Employee(data)
             db.session.add(employeeData)
             db.session.commit()
             flash(u'Employee Successfully Added.')
@@ -99,7 +99,7 @@ class AssignEmployeeAsTeacher(BaseController):
                 'user_id': employee_id,
                 'subject_id': request.form['subject']
             }
-            createTeacher = model.Teacher(teacherData)
+            createTeacher = db.Teacher(teacherData)
             db.session.add(createTeacher)
             db.session.commit()
             flash('Teacher Successfully added.')
@@ -122,7 +122,7 @@ class EmployeeDashboard(BaseController):
     decorators = [site_setting, login_required]
 
     def dispatch_request(self):
-        employees = model.Employee.query.all()
+        employees = db.Employee.query.all()
 
         return render_template('admin/dashboard.html',
                                school=self.get_site_data(),
@@ -138,7 +138,7 @@ class EditEmployee(BaseController):
 
     def dispatch_request(self):
         employee_id = request.args.get('employee_id')
-        employee = model.Employee.query.filter_by(id=employee_id).first()
+        employee = db.Employee.query.filter_by(id=employee_id).first()
         editEmployee = EditEmployeeForm(employee)
         isEditEmployeeValid = self.is_form_valid(editEmployee)
         if isEditEmployeeValid:
@@ -167,7 +167,7 @@ class DeleteEmployee(BaseController):
 
     def dispatch_request(self):
         employee_id = request.args.get('employee_id')
-        model.Employee.query.filter_by(id=employee_id).delete()
+        db.Employee.query.filter_by(id=employee_id).delete()
         db.session.commit()
         flash('Successfully deleted.')
         return redirect(url_for('module_employee.dashboard'))
@@ -181,8 +181,8 @@ class SearchEmployee(BaseController):
 
     def dispatch_request(self):
         keyword = request.form['keyword']
-        employees = model.Employee.query.filter(
-            model.Employee.fullname.like("%"+keyword+"%")).all()
+        employees = db.Employee.query.filter(
+            db.Employee.fullname.like("%"+keyword+"%")).all()
 
         return render_template('admin/dashboard.html',
                                school=self.get_site_data(),
@@ -210,7 +210,7 @@ class AddSubject(BaseController):
                 'curriculum': request.form['curriculum'],
                 'alias': request.form['alias']
             }
-            subject = model.Subject(data)
+            subject = db.Subject(data)
             db.session.add(subject)
             db.session.commit()
             return redirect(url_for('module_employee.dashboard'))

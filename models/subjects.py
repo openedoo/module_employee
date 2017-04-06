@@ -29,3 +29,8 @@ class Subject(db.Model):
         self.category = data['category']
         self.curriculum = data['curriculum']
         self.alias = data['alias']
+
+    @classmethod
+    def get_choices(self):
+        subjects = self.query.with_entities(self.id, self.name)
+        return subjects

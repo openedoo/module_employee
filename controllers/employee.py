@@ -91,6 +91,8 @@ class AssignEmployeeAsTeacher(BaseController):
 
     def dispatch_request(self):
         assignAsTeacherForm = AssignAsTeacherForm()
+        subjectChoices = model.Subject.get_choices()
+        assignAsTeacherForm.subject.choices = subjectChoices
         subjects = assignAsTeacherForm.subject.choices
         isAssignAsTeacherValid = self.is_form_valid(assignAsTeacherForm)
         employee_id = request.args.get('employee_id')

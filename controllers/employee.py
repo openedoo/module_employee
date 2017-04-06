@@ -28,6 +28,7 @@ class EmployeeLogin(BaseController):
             employee = employees.first()
             if employee and check_werkzeug(employee.password, password):
                 encodeUsername = session_encode(employee.username)
+                session['is_admin'] = True
                 session['username'] = encodeUsername
                 return redirect(url_for('module_employee.dashboard'))
             flash(u'Username or password did not match.', 'error')
@@ -44,6 +45,7 @@ class EmployeeLogout(BaseController):
     decorators = [site_setting, login_required]
 
     def dispatch_request(self):
+        session['is_admin'] = False
         session['username'] = False
         return render_template('admin/logout.html',
                                school=self.get_site_data())
@@ -79,8 +81,7 @@ class AddEmployee(BaseController):
 
         return render_template('admin/add-employee.html',
                                form=addEmployeeForm,
-                               school=self.get_site_data(),
-                               showAdminNav=self.show_admin_nav())
+                               school=self.get_site_data())
 
 
 class AssignEmployeeAsTeacher(BaseController):
@@ -112,7 +113,6 @@ class AssignEmployeeAsTeacher(BaseController):
         return render_template('admin/assign.html',
                                school=self.get_site_data(),
                                form=assignAsTeacherForm,
-                               showAdminNav=self.show_admin_nav(),
                                subjects=subjects,
                                employee_id=employee_id)
 
@@ -128,8 +128,7 @@ class EmployeeDashboard(BaseController):
 
         return render_template('admin/dashboard.html',
                                school=self.get_site_data(),
-                               data=employees,
-                               showAdminNav=self.show_admin_nav())
+                               data=employees)
 
 
 class EditEmployee(BaseController):
@@ -157,8 +156,7 @@ class EditEmployee(BaseController):
         return render_template('admin/edit.html',
                                school=self.get_site_data(),
                                data=employee,
-                               form=editEmployee,
-                               showAdminNav=self.show_admin_nav())
+                               form=editEmployee)
 
 
 class DeleteEmployee(BaseController):
@@ -188,8 +186,7 @@ class SearchEmployee(BaseController):
 
         return render_template('admin/dashboard.html',
                                school=self.get_site_data(),
-                               data=employees,
-                               showAdminNav=self.show_admin_nav())
+                               data=employees)
 
 
 class AddSubject(BaseController):
@@ -221,5 +218,4 @@ class AddSubject(BaseController):
 
         return render_template('admin/add-subject.html',
                                school=self.get_site_data(),
-                               form=addSubjectForm,
-                               showAdminNav=self.show_admin_nav())
+                               form=addSubjectForm)

@@ -3,6 +3,12 @@
   <div class="navbar-header">
     <a class="navbar-brand" href="{{ url_for('module_employee.dashboard') }}">{{ school['name'] }}</a>
   </div>
-{% block topmenu %}{% endblock %}
+
+  {% block top_menu %}
+    {% if session['is_admin'] and session['username'] %}
+      {% include 'admin/top-menu.html' %}
+    {% endif %}
+  {% endblock %}
+
 </nav>
 {% endblock %}

@@ -18,16 +18,6 @@ class BaseController(View):
     methods = []
     decorators = []
 
-    def show_admin_nav(self):
-        """Show admin navigation flag
-
-        This is just a boolean flag to help admin menu in top navigation bar
-        should show or not.
-
-        TODO: Make better implementation that show/hide admin menu
-        """
-        return True
-
     def is_form_valid(self, form):
         """Validate form
 

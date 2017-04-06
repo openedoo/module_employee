@@ -5,9 +5,13 @@
   </div>
 
   {% block top_menu %}
+  <ul class="nav navbar-top-links navbar-right">
     {% if session['is_admin'] and session['username'] %}
       {% include 'admin/top-menu.html' %}
+    {% else %}
+      <li><a href="{{ url_for('module_employee.login') }}" class="btn btn-link">Login</a></li>
     {% endif %}
+  </ul>
   {% endblock %}
 
 </nav>

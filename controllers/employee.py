@@ -88,7 +88,7 @@ class AddEmployee(BaseController):
         addEmployeeForm = AddEmployeeForm()
         isAddEmployeeValid = self.is_form_valid(addEmployeeForm)
         if isAddEmployeeValid:
-            add = model.Employee.add(request.form)
+            add = db.Employee.add(request.form)
             flash(u'Employee Successfully Added.')
             return redirect(url_for('module_employee.dashboard'))
         else:

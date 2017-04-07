@@ -9,7 +9,7 @@
 
         {% include 'form-message.html' %}
 
-        <form method="post" action="{{ url_for('module_employee.add') }}">
+        <form method="post">
           {{ form.csrf_token }}
 
           <div class="form-group label-floating">

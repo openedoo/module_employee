@@ -7,9 +7,33 @@ from openedoo_project import db
 from modules.module_employee.forms import LoginForm, AddEmployeeForm, \
     AssignAsTeacherForm, EditEmployeeForm, AddSubjectForm, flash_errors
 from modules.module_employee.views.decorators import site_setting, \
-    login_required
+    login_required, setup_required
 from modules.module_employee import models as db
 from .base_controller import BaseController
+
+
+class EmployeeSetup(BaseController):
+    """Employee setup controller."""
+
+    methods = ['GET', 'POST']
+    decorators = [site_setting]
+
+    def dispatch_request(self):
+        employee = db.Employee.check_records()
+        if employee:
+            return redirect(url_for('module_employee.public_list'))
+
+        setupForm = AddEmployeeForm()
+        isFormValid = self.is_form_valid(setupForm)
+        if isFormValid:
+            add = db.Employee.add(request.form)
+            flash(u'Employee successfully added.', 'success')
+            return redirect(url_for('module_employee.public_list'))
+        else:
+            flash_errors(setupForm)
+        return render_template('admin/add-employee.html',
+                               school=self.get_site_data(),
+                               form=setupForm)
 
 
 class EmployeeLogin(BaseController):
@@ -64,16 +88,7 @@ class AddEmployee(BaseController):
         addEmployeeForm = AddEmployeeForm()
         isAddEmployeeValid = self.is_form_valid(addEmployeeForm)
         if isAddEmployeeValid:
-            data = {
-                'username': request.form['username'],
-                'fullname': request.form['fullname'],
-                'password': hashing_werkzeug(request.form['password']),
-                'nip': request.form['nip'],
-                'created': datetime.datetime.now()
-            }
-            employeeData = db.Employee(data)
-            db.session.add(employeeData)
-            db.session.commit()
+            add = model.Employee.add(request.form)
             flash(u'Employee Successfully Added.')
             return redirect(url_for('module_employee.dashboard'))
         else:

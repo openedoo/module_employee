@@ -2,7 +2,7 @@ from openedoo_project import db
 from openedoo.core.libs import Blueprint
 from .controllers.employee import EmployeeLogin, EmployeeLogout, AddEmployee, \
     AssignEmployeeAsTeacher, EmployeeDashboard, EditEmployee, DeleteEmployee, \
-    SearchEmployee, AddSubject
+    SearchEmployee, AddSubject, EmployeeSetup
 from .controllers.public import EmployeeList
 
 
@@ -12,6 +12,7 @@ module_employee = Blueprint('module_employee', __name__,
 
 
 module_employee.add_url_rule('/', view_func=EmployeeList.as_view('public_list'))
+module_employee.add_url_rule('/setup', view_func=EmployeeSetup.as_view('setup'))
 module_employee.add_url_rule('/admin',
                              view_func=EmployeeDashboard.as_view('dashboard'))
 module_employee.add_url_rule('/admin/login',

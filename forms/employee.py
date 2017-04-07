@@ -80,5 +80,6 @@ class EditEmployeeForm(FlaskForm):
 
 
 class AssignAsTeacherForm(FlaskForm):
-    subject = SelectField('Subject', choices=[(1, 'tesss'), (2, 'two')], coerce=int,
+    subject = SelectField('Subject',
+                          coerce=int,
                           validators=[DataRequired()])

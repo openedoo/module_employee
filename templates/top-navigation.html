@@ -1,8 +1,18 @@
 {% block navigation %}
 <nav class="navbar navbar-default navbar-static-top">
   <div class="navbar-header">
-    <a class="navbar-brand" href="{{ url_for('module_employee.dashboard') }}">{{ school['name'] }}</a>
+    <a class="navbar-brand" href="{{ url_for('module_employee.public_list') }}">{{ school['name'] }}</a>
   </div>
-{% block topmenu %}{% endblock %}
+
+  {% block top_menu %}
+  <ul class="nav navbar-top-links navbar-right">
+    {% if session['is_admin'] and session['username'] %}
+      {% include 'admin/top-menu.html' %}
+    {% else %}
+      <li><a href="{{ url_for('module_employee.login') }}" class="btn btn-link">Login</a></li>
+    {% endif %}
+  </ul>
+  {% endblock %}
+
 </nav>
 {% endblock %}

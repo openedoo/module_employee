@@ -6,7 +6,7 @@ Module for managing employee inspired from JIBAS.
 
 Install this module inside Openedoo
 ```
-$ openedoo manage.py module install https://github.com/openedoo/module_employee
+$ python manage.py module install https://github.com/openedoo/module_employee
 ```
 
 Update file in `openedoo_project/tables.py`

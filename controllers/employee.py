@@ -8,7 +8,7 @@ from modules.module_employee.forms import LoginForm, AddEmployeeForm, \
     AssignAsTeacherForm, EditEmployeeForm, AddSubjectForm, flash_errors
 from modules.module_employee.views.decorators import site_setting, \
     login_required, setup_required
-from modules.module_employee import models as db
+from modules.module_employee import models as model
 from .base_controller import BaseController
 
 
@@ -26,7 +26,7 @@ class EmployeeSetup(BaseController):
         setupForm = AddEmployeeForm()
         isFormValid = self.is_form_valid(setupForm)
         if isFormValid:
-            add = db.Employee.add(request.form)
+            add = model.Employee.add(request.form)
             flash(u'Employee successfully added.', 'success')
             return redirect(url_for('module_employee.public_list'))
         else:
@@ -48,7 +48,7 @@ class EmployeeLogin(BaseController):
         if isFormValid:
             username = request.form['username']
             password = request.form['password']
-            employees = db.Employee.query.filter_by(username=username)
+            employees = model.Employee.query.filter_by(username=username)
             employee = employees.first()
             if employee and check_werkzeug(employee.password, password):
                 encodeUsername = session_encode(employee.username)
@@ -88,7 +88,7 @@ class AddEmployee(BaseController):
         addEmployeeForm = AddEmployeeForm()
         isAddEmployeeValid = self.is_form_valid(addEmployeeForm)
         if isAddEmployeeValid:
-            add = db.Employee.add(request.form)
+            add = model.Employee.add(request.form)
             flash(u'Employee Successfully Added.')
             return redirect(url_for('module_employee.dashboard'))
         else:
@@ -117,7 +117,7 @@ class AssignEmployeeAsTeacher(BaseController):
                 'user_id': employee_id,
                 'subject_id': request.form['subject']
             }
-            createTeacher = db.Teacher(teacherData)
+            createTeacher = model.Teacher(teacherData)
             db.session.add(createTeacher)
             db.session.commit()
             flash('Teacher Successfully added.')
@@ -139,7 +139,7 @@ class EmployeeDashboard(BaseController):
     decorators = [site_setting, login_required]
 
     def dispatch_request(self):
-        employees = db.Employee.query.all()
+        employees = model.Employee.query.all()
 
         return render_template('admin/dashboard.html',
                                school=self.get_site_data(),
@@ -154,7 +154,7 @@ class EditEmployee(BaseController):
 
     def dispatch_request(self):
         employee_id = request.args.get('employee_id')
-        employee = db.Employee.query.filter_by(id=employee_id).first()
+        employee = model.Employee.query.filter_by(id=employee_id).first()
         editEmployee = EditEmployeeForm(employee)
         isEditEmployeeValid = self.is_form_valid(editEmployee)
         if isEditEmployeeValid:
@@ -182,7 +182,7 @@ class DeleteEmployee(BaseController):
 
     def dispatch_request(self):
         employee_id = request.args.get('employee_id')
-        db.Employee.query.filter_by(id=employee_id).delete()
+        model.Employee.query.filter_by(id=employee_id).delete()
         db.session.commit()
         flash('Successfully deleted.')
         return redirect(url_for('module_employee.dashboard'))
@@ -196,7 +196,7 @@ class SearchEmployee(BaseController):
 
     def dispatch_request(self):
         keyword = request.form['keyword']
-        employees = db.Employee.query.filter(
+        employees = model.Employee.query.filter(
             db.Employee.fullname.like("%"+keyword+"%")).all()
 
         return render_template('admin/dashboard.html',
@@ -224,7 +224,7 @@ class AddSubject(BaseController):
                 'curriculum': request.form['curriculum'],
                 'alias': request.form['alias']
             }
-            subject = db.Subject(data)
+            subject = model.Subject(data)
             db.session.add(subject)
             db.session.commit()
             return redirect(url_for('module_employee.dashboard'))

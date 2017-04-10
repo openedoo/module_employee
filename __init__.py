@@ -3,6 +3,7 @@ from openedoo.core.libs import Blueprint
 from .controllers.employee import EmployeeLogin, EmployeeLogout, AddEmployee, \
     AssignEmployeeAsTeacher, EmployeeDashboard, EditEmployee, DeleteEmployee, \
     SearchEmployee, AddSubject, EmployeeSetup
+from .controllers.site_setting import SiteSetting
 from .controllers.public import EmployeeList
 
 
@@ -28,6 +29,8 @@ module_employee.add_url_rule('/admin/assign',
                              view_func=assignEmployeeAsTeacherView)
 module_employee.add_url_rule('/admin/delete',
                              view_func=DeleteEmployee.as_view('delete'))
+module_employee.add_url_rule('/admin/setting',
+                             view_func=SiteSetting.as_view('setting'))
 module_employee.add_url_rule('/search',
                              view_func=SearchEmployee.as_view('search'))
 module_employee.add_url_rule('/admin/subject/add',

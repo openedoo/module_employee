@@ -13,3 +13,12 @@ class Setting(db.Model):
             'id': self.id,
             'name': self.name
         }
+
+    def get_existing_name(self):
+        setting = self.query.limit(1).first()
+        return setting
+
+    def update(self, data):
+        setting = self.get_existing_name()
+        setting.name = data['name']
+        return db.session.commit()

@@ -1,5 +1,4 @@
 from openedoo_project import db
-from openedoo_project import config
 
 
 class Setting(db.Model):

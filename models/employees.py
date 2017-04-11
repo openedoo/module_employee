@@ -24,10 +24,7 @@ class Employee(User):
         return employees
 
     @classmethod
-    def add(self, form={}):
-        if not form:
-            raise ValueError('Form is supplied with wrong data.')
-
+    def add(self, form=None):
         data = {
             'username': form['username'],
             'fullname': form['fullname'],

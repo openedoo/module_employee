@@ -1,6 +1,6 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, SelectField
-from wtforms.validators import (DataRequired, Email, Length, EqualTo,
+from wtforms.validators import (DataRequired, Length, EqualTo,
                                 ValidationError)
 from sqlalchemy import and_, not_
 from modules.module_employee.models import User

@@ -17,10 +17,7 @@ class Subject(db.Model):
     curriculum = db.Column(db.Integer)
     alias = db.Column(db.Text)
 
-    def __init__(self, data={}):
-        if data is None:
-            raise ValueError('Subject is supplied with wrong data!')
-
+    def __init__(self, data=None):
         self.code = data['code']
         self.name = data['name']
         self.major = data['major']

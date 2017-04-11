@@ -27,10 +27,7 @@ class User(db.Model):
     created = db.Column(db.DateTime())
     last_login = db.Column(db.DateTime())
 
-    def __init__(self, user={}):
-        if not user:
-            raise ValueError('user is supplied with wrong data!')
-
+    def __init__(self, user=None):
         self.username = user['username']
         self.password = user['password']
         self.fullname = user['fullname']

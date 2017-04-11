@@ -13,6 +13,6 @@ class Teacher(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey(User.id))
     subject_id = db.Column(db.Integer, db.ForeignKey(Subject.id))
 
-    def __init__(self, data={}):
+    def __init__(self, data=None):
         self.user_id = data['user_id']
         self.subject_id = data['subject_id']

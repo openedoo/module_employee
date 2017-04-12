@@ -27,7 +27,7 @@ class SiteSetting(BaseController):
             return redirect(url_for('module_employee.dashboard'))
         else:
             flash_errors(siteSettingForm)
-        return render_template('admin/site-setting.html',
+        return render_template('module_employee/admin/site-setting.html',
                         school=self.get_site_data(),
                         data=setting,
                         form=siteSettingForm)

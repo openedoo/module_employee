@@ -11,6 +11,6 @@ class EmployeeList(BaseController):
 
     def dispatch_request(self):
         employees = models.Employee.get_public_list()
-        return render_template('public/list.html',
+        return render_template('module_employee/public/list.html',
                                data=employees,
                                school=self.get_site_data())

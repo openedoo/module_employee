@@ -31,7 +31,7 @@ class EmployeeSetup(BaseController):
             return redirect(url_for('module_employee.public_list'))
         else:
             flash_errors(setupForm)
-        return render_template('admin/add-employee.html',
+        return render_template('module_employee/admin/add-employee.html',
                                school=self.get_site_data(),
                                form=setupForm)
 
@@ -57,7 +57,7 @@ class EmployeeLogin(BaseController):
                 return redirect(url_for('module_employee.dashboard'))
             flash(u'Username or password did not match.', 'error')
         flash_errors(loginForm)
-        return render_template('admin/login.html',
+        return render_template('module_employee/admin/login.html',
                                school=self.get_site_data(),
                                form=loginForm)
 
@@ -71,7 +71,7 @@ class EmployeeLogout(BaseController):
     def dispatch_request(self):
         session['is_admin'] = False
         session['username'] = False
-        return render_template('admin/logout.html',
+        return render_template('module_employee/admin/logout.html',
                                school=self.get_site_data())
 
 
@@ -125,7 +125,7 @@ class AssignEmployeeAsTeacher(BaseController):
         else:
             flash_errors(assignAsTeacherForm)
 
-        return render_template('admin/assign.html',
+        return render_template('module_employee/admin/assign.html',
                                school=self.get_site_data(),
                                form=assignAsTeacherForm,
                                subjects=subjects,
@@ -141,7 +141,7 @@ class EmployeeDashboard(BaseController):
     def dispatch_request(self):
         employees = model.Employee.query.all()
 
-        return render_template('admin/dashboard.html',
+        return render_template('module_employee/admin/dashboard.html',
                                school=self.get_site_data(),
                                data=employees)
 
@@ -168,7 +168,7 @@ class EditEmployee(BaseController):
         else:
             flash_errors(editEmployee)
 
-        return render_template('admin/edit.html',
+        return render_template('module_employee/admin/edit.html',
                                school=self.get_site_data(),
                                data=employee,
                                form=editEmployee)
@@ -199,7 +199,7 @@ class SearchEmployee(BaseController):
         employees = model.Employee.query.filter(
             db.Employee.fullname.like("%"+keyword+"%")).all()
 
-        return render_template('admin/dashboard.html',
+        return render_template('module_employee/admin/dashboard.html',
                                school=self.get_site_data(),
                                data=employees)
 
@@ -231,6 +231,6 @@ class AddSubject(BaseController):
         else:
             flash_errors(addSubjectForm)
 
-        return render_template('admin/add-subject.html',
+        return render_template('module_employee/admin/add-subject.html',
                                school=self.get_site_data(),
                                form=addSubjectForm)

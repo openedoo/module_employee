@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "module_employee/base.html" %}
 
 {% block content %}
 <div class="wrapper">
@@ -6,7 +6,7 @@
     <div class="center-page">
       <div class="col-md-6 col-md-offset-3 white-panel">
 
-        {% include "form-message.html" %}
+        {% include "module_employee/form-message.html" %}
 
         <form method="POST" action="{{ url_for('module_employee.setting') }}">
           {{ form.csrf_token }}

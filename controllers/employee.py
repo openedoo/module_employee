@@ -19,7 +19,7 @@ class EmployeeSetup(BaseController):
     decorators = [site_setting]
 
     def dispatch_request(self):
-        employee = db.Employee.check_records()
+        employee = model.Employee.check_records()
         if employee:
             return redirect(url_for('module_employee.public_list'))
 

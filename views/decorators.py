@@ -35,7 +35,7 @@ def login_required(f):
 
 def site_setting(f):
     @wraps(f)
-    def decorated_function(*args, **kwargs):
+    def wrap(*args, **kwargs):
         if not hasattr(g, 'school') or g.school is None:
             g.school = {'name': ''}
             school = SiteSetting()
@@ -43,4 +43,4 @@ def site_setting(f):
             if schoolData:
                 g.school = schoolData
         return f(*args, **kwargs)
-    return decorated_function
+    return wrap

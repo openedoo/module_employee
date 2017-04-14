@@ -1,8 +1,7 @@
 from functools import wraps
 from flask import g, flash, url_for
 from openedoo.core.libs import session, redirect
-from modules.module_employee.models import Employee
-from .API import SiteSetting
+from modules.module_employee.models import Employee, Setting
 
 
 def setup_required(f):
@@ -38,8 +37,8 @@ def site_setting(f):
     def wrap(*args, **kwargs):
         if not hasattr(g, 'school') or g.school is None:
             g.school = {'name': ''}
-            school = SiteSetting()
-            schoolData = school.get_data()
+            setting = Setting()
+            schoolData = setting.get_existing_name()
             if schoolData:
                 g.school = schoolData
         return f(*args, **kwargs)

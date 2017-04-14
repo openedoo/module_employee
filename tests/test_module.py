@@ -20,7 +20,7 @@ class Employee(unittest.TestCase):
 
     def test_unittest_can_detect_this_test(self):
         response = self.client.get(url_for('module_employee.login'))
-        partOfThePage = '<form class=\"form\" method=\"post\" action=\"/employee/login\">'
+        partOfThePage = '<form class=\"form\" method=\"post\" action=\"/employee/admin/login\">'
         self.assertTrue(partOfThePage in response.get_data(as_text=True))
 
     def test_restricted_page(self):
@@ -58,7 +58,7 @@ class Employee(unittest.TestCase):
         self.assertTrue(partOfTheDashboard in login.get_data(as_text=True))
 
         # Get add subject page
-        partOfThePage = '<form class=\"form\" method=\"post\" action=\"/employee/subject/add\">'
+        partOfThePage = '<h3 class=\"text-center\">Add Subject Information</h3>'
         addSubject = self.client.get(url_for('module_employee.add_subject'),
                                      follow_redirects=True)
         self.assertTrue(partOfThePage in addSubject.get_data(as_text=True))

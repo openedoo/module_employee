@@ -17,17 +17,17 @@ class SiteSetting(BaseController):
         existingSetting = setting.get_existing_name()
         siteSettingForm = SiteSettingForm()
         isFormValid = self.is_form_valid(siteSettingForm)
-        if setting and isFormValid:
+        if existingSetting and isFormValid:
             updateSetting = setting.update(request.form)
             flash(u'Succesfully updated.', 'success')
             return redirect(url_for('module_employee.dashboard'))
-        elif not setting and isFormValid:
-            setSetting = setting.add(request.form)
+        elif not existingSetting and isFormValid:
+            setSetting = setting.insert(request.form)
             flash(u'Succesfully set.', 'success')
             return redirect(url_for('module_employee.dashboard'))
         else:
             flash_errors(siteSettingForm)
         return render_template('admin/site-setting.html',
-                        school=self.get_site_data(),
-                        data=setting,
-                        form=siteSettingForm)
+                               school=self.get_site_data(),
+                               data=setting,
+                               form=siteSettingForm)

@@ -13,6 +13,11 @@ class Setting(db.Model):
             'name': self.name
         }
 
+    def insert(self, data=None):
+        self.name = data['name']
+        db.session.add(self)
+        return db.session.commit()
+
     def get_existing_name(self):
         setting = self.query.limit(1).first()
         return setting
